@@ -5,9 +5,16 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
+from accounts.views import (
+    register_view,
+    login_view,
+    logout_view,
+ 
+)
+
 urlpatterns = [
-    path('chat/', include('chat.urls')),
-    path('accounts/', include('accounts.urls')),
+    path('accounts/chat/', include('chat.urls')),
+    path('accounts/', include('accounts.urls',namespace='accounts')),
     path('admin/', admin.site.urls),
     ]
 
