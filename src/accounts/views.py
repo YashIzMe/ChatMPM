@@ -43,7 +43,7 @@ def login_view(request, *args, **kwargs):
 
 	user = request.user
 	if user.is_authenticated: 
-		return redirect("home")
+		return redirect("chat/")
 
 	destination = get_redirect_if_exists(request)
 	print("destination: " + str(destination))

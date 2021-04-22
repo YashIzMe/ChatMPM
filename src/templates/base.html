@@ -31,13 +31,13 @@
                     </li>
                 </ul>
                 {% if request.user.is_authenticated %}
-				<form class="d-flex">
+				<form class="">
                     <a href="{% url 'accounts:logout' %}" class="btn btn-outline-success mx-2" type="submit">Logout</a>
                     <a href="#" class="btn btn-outline-warning mx-2 active" type="submit">Account</a>
                     <!-- <button class="btn btn-outline-warning mx-2" type="submit">Signup</button> -->
                 </form>
                 {% else %}
-				<form class="d-flex">
+				<form class="">
                     <a href="{% url 'accounts:login' %}" class="btn btn-outline-success mx-2" type="submit">Login</a>
                     <a href="{% url 'accounts:register' %}" class="btn btn-outline-warning mx-2 active" type="submit">Signup</a>
                     <!-- <button class="btn btn-outline-warning mx-2" type="submit">Signup</button> -->
