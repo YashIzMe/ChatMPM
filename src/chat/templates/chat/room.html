@@ -72,6 +72,7 @@
                     </div>
                     <div class="room-sidebar-groups-g-msg">
                         <span class="room-sidebar-groups-g-msg1">{{grp.username|title}}</span>
+                        <span class="room-sidebar-groups-g-msg2" id="rsb-g{{grp.id}}"></span>
                     </div>
                     <div class="room-sidebar-groups-g-time" id="rsb-t{{grp.id}}"></div>
                 </div>
@@ -916,10 +917,13 @@ svg {
         const chatSocket = new WebSocket(
             `ws://${window.location.host}/ws/chat/${roomId}/`
         );
-    
+        
+
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
             broadcastMessage(data.message, data.username)
+            console.log(data.message)
+            console.log("Received")
             scrollBottom()
         };
     
