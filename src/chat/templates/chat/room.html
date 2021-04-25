@@ -71,7 +71,7 @@
                         <img src="#" alt="Default Profile">
                     </div>
                     <div class="room-sidebar-groups-g-msg">
-                        <span class="room-sidebar-groups-g-msg1">{{grp.username|title}}</span>
+                        <span class="room-sidebar-groups-g-msg1">{{grp.name|title}}</span>
                         <span class="room-sidebar-groups-g-msg2" id="rsb-g{{grp.id}}"></span>
                     </div>
                     <div class="room-sidebar-groups-g-time" id="rsb-t{{grp.id}}"></div>
@@ -87,7 +87,8 @@
             <div class="msg-header mat-elevation-z6">
                 <div class="h-avatar"><img src="{{chatgroup.icon.url}}"></div>
                 <div class="h-users">
-                    <div class="h-user-group">{{chatgroup.username|title}}</div>
+                    <div class="h-user-group">{{chatgroup.name|title}}</div>
+                    <div class="h-user-member">{{participants}}</div>
                 </div>
             </div>
             <div class="chats-display-area">

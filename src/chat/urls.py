@@ -11,7 +11,7 @@ app_name='chat'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<str:user_id>/', views.room, name='room'),
+    path('<str:group_id>/', views.room, name='room'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
