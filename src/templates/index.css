@@ -23,7 +23,7 @@ html {
     justify-content: left;
 }
 
-.leftside-chatbox{
+.letfside-chatbox{
     display: block;
     align-items: center;
     justify-content: center;
@@ -91,7 +91,7 @@ html {
   
 
 .row-for-profiles:hover {
-    background-color: rgb(247, 247, 247);
+    background-color: rgb(170, 170, 255);
     /* height: 10px; */
 }
   
