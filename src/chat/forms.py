@@ -20,10 +20,22 @@ class GroupAdminForm(forms.ModelForm):
 
     class Meta:
         model = ChatGroup
-        exclude = []
+        fields = ('name','users')
 
     def __init__(self, *args, **kwargs):
         super(GroupAdminForm, self).__init__(*args, **kwargs)
 
         if self.instance and self.instance.pk:
             self.fields['users'].initial = self.instance.users.all()
+    
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        try:
+            chatgroup = ChatGroup.objects.exclude(pk=self.instance.pk).get(name=name)
+        except ChatGroup.DoesNotExist:
+            return name
+        raise forms.ValidationError('Group Name "%s" is already in use.' %name)
+
+    def clean_users(self):
+        users = self.cleaned_data['users']
+        return users    

@@ -22,7 +22,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
-        print("Works")
         
 
     async def disconnect(self, code):

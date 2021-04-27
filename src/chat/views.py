@@ -1,12 +1,41 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render,redirect,reverse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 from . models import ChatGroup
+from accounts.models import Account
+from .forms import GroupAdminForm
+from .admin import ChatGroupAdmin
 
 # Create your views here.
-def index(request):
-    return render(request, 'chat/index.html')
+def get_members():
+    """ function to get all participants that belong the specific group """
+    
+    temp_participants = []
+    for participants in Account.objects.values_list('username', flat=True):
+        temp_participants.append(participants)
+    return temp_participants
+
+
+def group(request):
+    
+    if request.POST:
+        g = ChatGroup()
+        form = GroupAdminForm(request.POST, instance=g)
+        print(form.errors)
+        if form.is_valid():
+            new_group = form.save()
+            if 'users' in form.cleaned_data:
+                form.instance.user_set.set(form.cleaned_data['users'])
+
+            return HttpResponseRedirect('')
+
+    else:
+        form = GroupAdminForm()
+
+    print("The form isn't valid")
+    return render(request, "chat/group.html", {"form" : form, "members" : get_members()})
+
 
 
 def get_participants(group_id=None, group_obj=None, user=None):
