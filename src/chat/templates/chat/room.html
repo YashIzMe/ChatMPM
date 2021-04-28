@@ -91,11 +91,10 @@
                     <div class="h-user-member">{{participants}}</div>
                 </div>
             </div>
-            <div class="chats-display-area">
+            <!-- <div class="chats-display-area">
                 <div class="chats">
-                    <!-- <h1>chats</h1> -->
                 </div>
-            </div>
+            </div> -->
             <div class="msg-box msg-box--background" >
                 <div id="new-message-chat"></div>
             </div>
@@ -195,14 +194,7 @@
     .row{
         padding: 10px;
     }
-    .chats-display-area{
-        /* background-image: url("/images/chatareabg.jpg"); */
-        width: 100%;
-        height: 70vh;
-        /* background-repeat: no-repeat; */
-        /* background-color: blueviolet; */
-        
-    }
+    
     
     .row-for-profiles{
         border-bottom: 1px solid rgb(148, 148, 148);
@@ -249,7 +241,7 @@
     .chats-display-area{
         width: 100%;
         height: 70vh;
-        overflow-y: scroll;
+        overflow-y: auto;
     
     }
     .navcontainer{
@@ -488,8 +480,8 @@
 .room-container__msg { 
     display:grid;
     width: 100%;
-    min-height: 300vh;
-    height:300vh;
+    min-height: 100vh;
+    height:100vh;
     grid-template-columns: 1fr;
     grid-template-rows: 59px auto 62px;
     grid-template-areas: "msg-header"
