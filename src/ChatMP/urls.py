@@ -13,9 +13,9 @@ from accounts.views import (
 )
 
 urlpatterns = [
-    path('accounts/chat/', include('chat.urls',namespace='chat')),
-    path('accounts/', include('accounts.urls',namespace='accounts')),
+    path('chat/', include('chat.urls',namespace='chat'), name='chat'),
     path('admin/', admin.site.urls),
+    path('', include('accounts.urls',namespace='accounts'), name='accounts'),
     ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

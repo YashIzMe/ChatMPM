@@ -16,23 +16,23 @@
     {% load static %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">WhatsChat</a>
+            <a class="navbar-brand" href="{% url 'chat:room' group_id=2%}">WhatsChat</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                        <a class="nav-link" aria-current="page" href="{% url 'chat:group' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="chat.html">WhatsChat</a>
+                        <a class="nav-link" href="{% url 'chat:room' group_id=2%}">WhatsChat</a>
                     </li>
                 </ul>
                 {% if request.user.is_authenticated %}
 				<form class="">
                     <a href="{% url 'accounts:logout' %}" class="btn btn-outline-success mx-2" type="submit">Logout</a>
-                    <a href="#" class="btn btn-outline-warning mx-2 active" type="submit">Account</a>
+                    <a href="{% url 'accounts:view' user_id=request.user.id %}" class="btn btn-outline-warning mx-2 active" type="submit">Account</a>
                     <!-- <button class="btn btn-outline-warning mx-2" type="submit">Signup</button> -->
                 </form>
                 {% else %}
@@ -67,9 +67,6 @@
 
         {% for grp in groups_participated %}
         <div class="room-sidebar-groups" onclick="redirect('{{grp.get_absolute_url}}')">
-                    <div class="room-sidebar-groups-g-img">
-                        <img src="#" alt="Default Profile">
-                    </div>
                     <div class="room-sidebar-groups-g-msg">
                         <span class="room-sidebar-groups-g-msg1">{{grp.name|title}}</span>
                         <span class="room-sidebar-groups-g-msg2" id="rsb-g{{grp.id}}"></span>
@@ -85,7 +82,6 @@
     <div id='room-message'>
         <div class="room-container__msg">
             <div class="msg-header mat-elevation-z6">
-                <div class="h-avatar"><img src="{{chatgroup.icon.url}}"></div>
                 <div class="h-users">
                     <div class="h-user-group">{{chatgroup.name|title}}</div>
                     <div class="h-user-member">{{participants}}</div>

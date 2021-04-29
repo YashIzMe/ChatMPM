@@ -5,6 +5,7 @@ from django.conf import settings
 
 from accounts.forms import RegistrationForm, AccountAuthenticationForm
 from accounts.models import Account
+from chat.models import ChatGroup
 
 def register_view(request, *args, **kwargs):
 	user = request.user
@@ -15,7 +16,9 @@ def register_view(request, *args, **kwargs):
 	if request.POST:
 		form = RegistrationForm(request.POST)
 		if form.is_valid():
-			form.save()
+			user = form.save()
+			group = ChatGroup.objects.get(name = "World Server")
+			user.groups.add(group)
 			email = form.cleaned_data.get('email').lower()
 			raw_password = form.cleaned_data.get('password1')
 			account = authenticate(email=email, password=raw_password)
@@ -23,7 +26,7 @@ def register_view(request, *args, **kwargs):
 			destination = kwargs.get("next")
 			if destination:
 				return redirect(destination)
-			return redirect('chat/')
+			return redirect('chat/group')
 		else:
 			context['registration_form'] = form
 
@@ -35,7 +38,7 @@ def register_view(request, *args, **kwargs):
 
 def logout_view(request):
 	logout(request)
-	return redirect("chat/")
+	return redirect('accounts:login')
 
 
 def login_view(request, *args, **kwargs):
@@ -43,7 +46,7 @@ def login_view(request, *args, **kwargs):
 
 	user = request.user
 	if user.is_authenticated: 
-		return redirect("chat/")
+		return redirect("chat/group")
 
 	destination = get_redirect_if_exists(request)
 	print("destination: " + str(destination))
@@ -59,7 +62,7 @@ def login_view(request, *args, **kwargs):
 				login(request, user)
 				if destination:
 					return redirect(destination)
-				return redirect("chat/")
+				return redirect("chat/group")
 
 	else:
 		form = AccountAuthenticationForm()
