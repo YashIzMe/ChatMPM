@@ -1,8 +1,10 @@
+import json
 from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 
-from . models import ChatGroup
+from . models import ChatGroup, ChatMessage
 from accounts.models import Account
 from .forms import GroupAdminForm
 from .admin import ChatGroupAdmin
@@ -28,7 +30,7 @@ def group(request):
             if 'users' in form.cleaned_data:
                 form.instance.user_set.set(form.cleaned_data['users'])
 
-            return HttpResponseRedirect('')
+            return HttpResponseRedirect(reverse('chat:group'))
 
     else:
         form = GroupAdminForm()
@@ -58,13 +60,19 @@ def get_participants(group_id=None, group_obj=None, user=None):
 def room(request, group_id):
     if request.user.groups.filter(id=group_id).exists():
         chatgroup = ChatGroup.objects.get(id=group_id)
+        
+        chatmessage = ChatMessage.objects.filter(room_id=group_id).order_by('date_created')
+        convo = serializers.serialize('json', chatmessage)
+        
         #TODO: make sure user assigned to existing group
         assigned_groups = list(request.user.groups.values_list('id', flat=True))
         groups_participated = ChatGroup.objects.filter(id__in=assigned_groups)
+        
         return render(request, 'chat/room.html', {
             'chatgroup': chatgroup,
             'participants': get_participants(group_obj=chatgroup, user=request.user.username),
-            'groups_participated': groups_participated
+            'groups_participated': groups_participated,
+            'convo': json.dumps(convo)
         })
     else:
         return HttpResponse("chat:unauthorized")

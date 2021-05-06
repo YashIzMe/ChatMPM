@@ -1,8 +1,9 @@
 import json
+from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 #from asgiref.sync import await_to_sync
 
-
+from chat.models import ChatMessage
 
 class ChatConsumer(AsyncWebsocketConsumer):
     """ handshake websocket front end """
@@ -47,6 +48,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
+        await save_chat_message(
+            username=self.scope['user'].username.title(),
+            room_id=self.room_name,
+            message=message,
+        )
+
         print(message)
 
 
@@ -64,3 +71,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }))
 
         print(message + "2")
+
+@database_sync_to_async
+def save_chat_message(room_id,username,message):
+    return ChatMessage.objects.create(room_id=room_id,username=username,message=message)

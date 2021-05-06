@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import GroupAdmin as GroupAdminDefault
 
 from .forms import GroupAdminForm
-from .models import ChatGroup
+from .models import ChatGroup, ChatMessage
 
 # Unregister the original Group admin.
 admin.site.unregister(Group)
@@ -21,4 +21,9 @@ class ChatGroupAdmin(admin.ModelAdmin):
         if 'users' in form.cleaned_data:
             form.instance.user_set.set(form.cleaned_data['users'])
 
+class ChatMessageAdmin(admin.ModelAdmin):
+	list_display = ('room_id','username')
+	readonly_fields=('id', 'date_created')
+
 admin.site.register(ChatGroup, ChatGroupAdmin)
+admin.site.register(ChatMessage, ChatMessageAdmin)

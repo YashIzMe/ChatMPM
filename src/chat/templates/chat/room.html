@@ -902,11 +902,21 @@ svg {
     <script>
         
         const roomId = '{{chatgroup.id}}'
+        const convo = JSON.parse(JSON.parse('{{convo|escapejs}}'))
     
         const chatSocket = new WebSocket(
             `ws://${window.location.host}/ws/accounts/chat/${roomId}/`
         );
         
+        chatSocket.onopen = function(e) {
+            var i;
+            for(i=0;i<convo.length;i++) {
+                broadcastMessage(convo[i].fields.message,convo[i].fields.username)
+            }
+            
+
+        }
+
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);

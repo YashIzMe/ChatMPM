@@ -15,3 +15,10 @@ class ChatGroup(Group):
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('chat:room', args=[str(self.id)])
+
+class ChatMessage(models.Model):
+    """ use to store chat history message""" 
+    room_id = models.IntegerField(null=True)
+    username = models.CharField(max_length=50, null=True)
+    message = models.TextField()
+    date_created = models.DateTimeField(null=True, auto_now_add=True)
